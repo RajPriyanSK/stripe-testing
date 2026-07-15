@@ -40,7 +40,8 @@ const PLANS = [
     ],
     btn: {
       text: 'Start Your Free Trial',
-      priceId: 'prod_Ut93f7CSyJGhza',
+      monthlyPriceId: 'prod_Ut93f7CSyJGhza',
+      yearlyPriceId: 'prod_Ut9abcnrc9kJld',
     },
   },
   {
@@ -68,7 +69,8 @@ const PLANS = [
     ],
     btn: {
       text: 'Get started',
-      priceId: 'prod_Ut94vJL7hjlsPW',
+      monthlyPriceId: 'prod_Ut94vJL7hjlsPW',
+      yearlyPriceId: 'prod_Ut9aGWeqCz9QNh',
     },
   },
   {
@@ -95,7 +97,8 @@ const PLANS = [
     ],
     btn: {
       text: 'Contact team',
-      priceId: 'prod_Ut94bZ2iKYue9P',
+      monthlyPriceId: 'prod_Ut94bZ2iKYue9P',
+      yearlyPriceId: 'prod_Ut9aMPRzkKPaGu',
     },
   },
 ];

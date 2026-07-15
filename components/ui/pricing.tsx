@@ -28,7 +28,8 @@ interface Plan {
   }[];
   btn: {
     text: string;
-    priceId: string;
+    monthlyPriceId: string;
+    yearlyPriceId: string;
   };
   highlighted?: boolean;
 }
@@ -189,7 +190,11 @@ export function PricingCard({
       </div>
       <div className={cn('mt-auto w-full border-t p-3', plan.highlighted && 'bg-muted/40')}>
         <form action="/api/checkout" method="post">
-          <input type="hidden" name="priceId" value={plan.btn.priceId} />
+          <input
+            type="hidden"
+            name="priceId"
+            value={frequency === 'yearly' ? plan.btn.yearlyPriceId : plan.btn.monthlyPriceId}
+          />
           <Button className="w-full" variant={plan.highlighted ? 'default' : 'outline'} type="submit">
             {plan.btn.text}
           </Button>
