@@ -1,5 +1,15 @@
 import Stripe from 'stripe';
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-08-27.basil',
-});
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY?.trim();
+
+export function getStripeClient() {
+  if (!stripeSecretKey || stripeSecretKey.includes('placeholder')) {
+    return null;
+  }
+
+  return new Stripe(stripeSecretKey, {
+    apiVersion: '2025-08-27.basil',
+  });
+}
+
+export const stripe = getStripeClient();

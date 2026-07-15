@@ -5,7 +5,7 @@ export default async function HomePage({
 }) {
   const params = await searchParams;
   const error = params.error ? decodeURIComponent(params.error) : "";
-  const configuredPriceId = process.env.STRIPE_PRICE_ID ?? "prod_Ut8UeDbvzAOTUG";
+  const configuredPriceId = process.env.STRIPE_PRICE_ID?.trim() ?? "";
 
   return (
     <main style={{ fontFamily: "sans-serif", padding: "2rem", maxWidth: "720px", margin: "0 auto" }}>

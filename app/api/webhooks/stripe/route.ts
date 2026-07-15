@@ -1,13 +1,18 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripeClient } from "@/lib/stripe";
 
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = (await headers()).get("stripe-signature");
+  const stripe = getStripeClient();
 
   if (!signature) {
     return new NextResponse("Missing stripe-signature header", { status: 400 });
+  }
+
+  if (!stripe) {
+    return new NextResponse("Stripe is not configured", { status: 500 });
   }
 
   let event;

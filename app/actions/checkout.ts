@@ -1,13 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { stripe } from "@/lib/stripe";
+import { getStripeClient } from "@/lib/stripe";
 
 export async function createCheckoutSession(formData: FormData) {
   const priceId = formData.get("priceId") as string;
-  const secretKey = process.env.STRIPE_SECRET_KEY;
+  const stripe = getStripeClient();
 
-  if (!secretKey || secretKey.includes("placeholder")) {
+  if (!stripe) {
     redirect("/?error=Stripe+is+not+configured+yet.");
     return;
   }
