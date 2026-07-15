@@ -13,6 +13,7 @@ export async function POST(req: Request) {
   const forwardedHost = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
   const requestBaseUrl = forwardedHost ? `${forwardedProto}://${forwardedHost}` : null;
   const baseUrl = configuredBaseUrl || requestBaseUrl;
+  const origin = baseUrl || "https://stripe-testing-sandy.vercel.app";
 
   if (!priceId) {
     return NextResponse.json({ error: "A Stripe price or product reference is required." }, { status: 400 });
@@ -30,8 +31,8 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${baseUrl}/success`,
-      cancel_url: `${baseUrl}/cancel`,
+      success_url: `${origin}/success`,
+      cancel_url: `${origin}/cancel`,
     });
 
     if (session.url) {
