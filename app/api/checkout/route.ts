@@ -8,7 +8,11 @@ export async function POST(req: Request) {
     ? submittedPriceId
     : process.env.STRIPE_PRICE_ID ?? null;
   const secretKey = process.env.STRIPE_SECRET_KEY;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const configuredBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim();
+  const forwardedProto = req.headers.get("x-forwarded-proto") ?? "https";
+  const forwardedHost = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
+  const requestBaseUrl = forwardedHost ? `${forwardedProto}://${forwardedHost}` : null;
+  const baseUrl = configuredBaseUrl || requestBaseUrl;
 
   if (!priceId || !priceId.startsWith("price_")) {
     return NextResponse.json({ error: "A valid Stripe price ID is required." }, { status: 400 });
@@ -19,7 +23,7 @@ export async function POST(req: Request) {
   }
 
   if (!baseUrl) {
-    return NextResponse.json({ error: "NEXT_PUBLIC_BASE_URL is missing." }, { status: 500 });
+    return NextResponse.json({ error: "NEXT_PUBLIC_BASE_URL is missing and the request host could not be determined." }, { status: 500 });
   }
 
   try {
@@ -36,7 +40,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ error: "No checkout URL returned" }, { status: 500 });
   } catch (error) {
-    console.error("Checkout failed:", error);
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Unknown Stripe error";
+    console.error("Checkout failed:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
