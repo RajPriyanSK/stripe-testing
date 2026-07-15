@@ -14,8 +14,8 @@ export async function POST(req: Request) {
   const requestBaseUrl = forwardedHost ? `${forwardedProto}://${forwardedHost}` : null;
   const baseUrl = configuredBaseUrl || requestBaseUrl;
 
-  if (!priceId || !priceId.startsWith("price_")) {
-    return NextResponse.json({ error: "A valid Stripe price ID is required." }, { status: 400 });
+  if (!priceId) {
+    return NextResponse.json({ error: "A Stripe price or product reference is required." }, { status: 400 });
   }
 
   if (!secretKey || secretKey.includes("placeholder")) {
