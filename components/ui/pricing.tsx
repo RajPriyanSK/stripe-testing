@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { CheckCircleIcon, StarIcon } from 'lucide-react';
-import Link from 'next/link';
 import { motion, type Transition } from 'framer-motion';
 
 type FREQUENCY = 'monthly' | 'yearly';
@@ -29,7 +28,7 @@ interface Plan {
   }[];
   btn: {
     text: string;
-    href: string;
+    priceId: string;
   };
   highlighted?: boolean;
 }
@@ -189,9 +188,12 @@ export function PricingCard({
         ))}
       </div>
       <div className={cn('mt-auto w-full border-t p-3', plan.highlighted && 'bg-muted/40')}>
-        <Button className="w-full" variant={plan.highlighted ? 'default' : 'outline'} asChild>
-          <Link href={plan.btn.href}>{plan.btn.text}</Link>
-        </Button>
+        <form action="/api/checkout" method="post">
+          <input type="hidden" name="priceId" value={plan.btn.priceId} />
+          <Button className="w-full" variant={plan.highlighted ? 'default' : 'outline'} type="submit">
+            {plan.btn.text}
+          </Button>
+        </form>
       </div>
     </div>
   );
