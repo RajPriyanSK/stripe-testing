@@ -40,7 +40,7 @@ const PLANS = [
     ],
     btn: {
       text: 'Start Your Free Trial',
-      href: '#',
+      href: `/api/checkout?priceId=prod_Ut93f7CSyJGhza`,
     },
   },
   {
@@ -68,7 +68,7 @@ const PLANS = [
     ],
     btn: {
       text: 'Get started',
-      href: '#',
+      href: `/api/checkout?priceId=prod_Ut94vJL7hjlsPW`,
     },
   },
   {
@@ -95,7 +95,7 @@ const PLANS = [
     ],
     btn: {
       text: 'Contact team',
-      href: '#',
+      href: `/api/checkout?priceId=prod_Ut94bZ2iKYue9P`,
     },
   },
 ];
